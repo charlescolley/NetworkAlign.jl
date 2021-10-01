@@ -1,7 +1,7 @@
 # % MAKE_SQUARES Returns a list of all the squares between A, B, and L
 # Se,Le,LEw = make_squares(A,B,L,true); Si = build_Si(Se,Le);
-function make_squares(A::SparseMatrixCSC{Int64,Int64},B::SparseMatrixCSC{Int64,Int64},
-                        L::SparseMatrixCSC{Int64,Int64},undirected::Bool)
+function make_squares(A::SparseMatrixCSC{T1,Int64},B::SparseMatrixCSC{T2,Int64},
+                        L::SparseMatrixCSC{T3,Int64},undirected::Bool) where {T1,T2,T3}
 
 
 m = size(A,1)
@@ -14,8 +14,8 @@ if undirected
     rpB = B.colptr
     ciB = B.rowval
 else
-    A = A'
-    B = B'
+    A = copy(A')
+    B = copy(B')
     
     rpA = A.colptr
     ciA = A.rowval
@@ -24,7 +24,7 @@ else
     ciB = B.rowval
 end
 
-L = L'
+L = copy(L')
 rpAB = L.colptr
 ciAB = L.rowval
 vAB = L.nzval
@@ -67,14 +67,15 @@ sqi = 0
         end
     end
     # remove labels for things in in adjacent to B
-    wv[ciAB[possible_matches]] = 0
+    wv[ciAB[possible_matches]] .= 0
 end
 
 Le = zeros(Int64,nnz(L),3)    
 LeWeights = zeros(Float64,nnz(L))    
 @inbounds for i = 1:m
     j = rpAB[i]:rpAB[i+1]-1
-    Le[j,1] = i
+
+    Le[j,1] .= i
     Le[j,2] = ciAB[j]
     LeWeights[j] = vAB[j]
 end
@@ -85,8 +86,8 @@ Se[:,2] = Se2
 return (Se,Le,LeWeights)
 end
 
-function make_squares(A::SparseMatrixCSC{Int64,Int64},B::SparseMatrixCSC{Int64,Int64},
-                        L::SparseMatrixCSC{Float64,Int64},undirected::Bool)
+function make_squares(A::SparseMatrixCSC{T1,Int64},B::SparseMatrixCSC{T2,Int64},
+                        L::SparseMatrixCSC{T3,Int64},undirected::Bool) where {T1,T2,T3}
 
 
 m = size(A,1)
@@ -99,8 +100,8 @@ if undirected
     rpB = B.colptr
     ciB = B.rowval
 else
-    A = A'
-    B = B'
+    A = copy(A')
+    B = copy(B')
     
     rpA = A.colptr
     ciA = A.rowval
@@ -109,7 +110,7 @@ else
     ciB = B.rowval
 end
 
-L = L'
+L = copy(L')
 rpAB = L.colptr
 ciAB = L.rowval
 vAB = L.nzval
@@ -152,14 +153,14 @@ sqi = 0
         end
     end
     # remove labels for things in in adjacent to B
-    wv[ciAB[possible_matches]] = 0
+    wv[ciAB[possible_matches]] .= 0
 end
 
 Le = zeros(Int64,nnz(L),2)    
 LeWeights = zeros(Float64,nnz(L))    
 @inbounds for i = 1:m
     j = rpAB[i]:rpAB[i+1]-1
-    Le[j,1] = i
+    Le[j,1] .= i
     Le[j,2] = ciAB[j]
     LeWeights[j] = vAB[j]
 end
