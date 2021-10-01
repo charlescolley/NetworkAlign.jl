@@ -1,7 +1,7 @@
 # % NETALIGN_SETUP Setup the data for the netalign codes from the problem data
 
-function netalign_setup(A::SparseMatrixCSC{T,Int64},B::SparseMatrixCSC{T,Int64},
-                        L::SparseMatrixCSC{Q,Int64}) where {T,Q}
+function netalign_setup(A::SparseMatrixCSC{T1,Int64},B::SparseMatrixCSC{T2,Int64},
+                        L::SparseMatrixCSC{Q,Int64}) where {T1,T2,Q}
 
 undirected = issymmetric(A) && issymmetric(B)
 Se,Le,LeWeights = make_squares(A,B,L,undirected)
