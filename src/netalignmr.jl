@@ -33,9 +33,9 @@ NETALIGNMR
     xbest,st,status,hist = netalignmr(S,w,a,b,li,lj)
     ma,mb = edge_list(bipartite_matching(xbest,li,lj))
 """
-function netalignmr(S::SparseMatrixCSC{T,Int},w::Vector{Float64},
-                       a::Int,b::Int,li::Vector{Int},lj::Vector{Int},
-                        gamma::Float64=0.25,stepm::Int=25,rtype::Int=1,maxiter::Int=1000,verbose::Bool=false) where T
+function netalignmr(S::SparseMatrixCSC{T1,Int},w::Vector{T2},
+                    a::Int,b::Int,li::Vector{Int},lj::Vector{Int},
+                    gamma::Float64=0.25,stepm::Int=25,rtype::Int=1,maxiter::Int=1000,verbose::Bool=false) where {T1,T2}
 
   m = maximum(li)
   n = maximum(lj)
@@ -170,4 +170,13 @@ function netalignmr(S::SparseMatrixCSC{T,Int},w::Vector{Float64},
   status[2] = fupper
   return xbest,st,status,hist
 
+end
+
+
+function netalignmr(S::SparseMatrixCSC{T,Int},L::SparseMatrixCSC{U,Int}, 
+                    a::Int,b::Int,gamma::Float64=0.25,stepm::Int=25,
+                    rtype::Int=1,maxiter::Int=1000,verbose::Bool=false) where {T,U}
+
+     li,lj,w = findnz(L)
+     netalignmr(S,w,a,b,li,lj,gamma,stepm,rtype,maxiter,verbose)
 end
