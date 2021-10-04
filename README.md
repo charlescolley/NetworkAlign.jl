@@ -2,7 +2,7 @@
 Network Alignment Algorithms in Julia
 * sample runs:
 ```
-Pkg.clone("https://github.com/nassarhuda/NetworkAlign.jl")
+Pkg.clone("https://github.com/charlescolley/NetworkAlign.jl.git")
 using NetworkAlign
 ```
 
