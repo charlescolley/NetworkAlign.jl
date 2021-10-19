@@ -157,7 +157,7 @@ function netalignmr(S::SparseMatrixCSC{T1,Int},w::Vector{T2},
     end
     Wtemp = sparse(1:length(mi),1:length(mi),gamma*mi)
     U = U - Wtemp*triu(SM) + tril(SM)'*Wtemp
-    Utemp1 = LinearAlgebra.fillstored!(copy(U), 1)
+    Utemp1 = fillstored!(copy(U), 1)
     Utemp1 *= 0.5
     U = min.(U,Utemp1)
     Utemp1 *= -1
