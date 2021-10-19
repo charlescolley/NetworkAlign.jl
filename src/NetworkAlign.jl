@@ -15,7 +15,7 @@ You can check the readme file here: \n
 "https://github.com/nassarhuda/NetworkAlign.jl/blob/master/README.md"
 """
 #NetworkAlign
-
+include("../include/MatrixNetworks_bipartite_matching.jl")
 include("normout.jl")
 include("othermaxplus.jl")
 include("othersum.jl")

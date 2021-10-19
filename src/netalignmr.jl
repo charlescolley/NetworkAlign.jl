@@ -79,7 +79,7 @@ function netalignmr(S::SparseMatrixCSC{T1,Int},w::Vector{T2},
 
     ai[tripi.>0] = x[mperm]
 
-    M_output = MatrixNetworks.bipartite_matching_primal_dual(rp,ci,ai,matm,matn)
+    M_output = bipartite_matching_primal_dual(rp,ci,ai,matm,matn)
     mi = MatrixNetworks.edge_indicator(M_output,li,lj)
     val = M_output.weight
 
